@@ -16,11 +16,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       :host {
-        display: block;
-        overflow: hidden;
+        /*@apply(--layout-vertical);*/
+        /*@apply(--layout-fullbleed);*/
+        /*@apply(--layout-fit);*/
+        /*@apply(--layout-scroll);*/
+        position: fixed;
+        height:80vh;
+        bottom: 20px;
+
       }
       #container {
+        background: white;
+        /*@apply(--layout-flex);*/
 
+        /*@apply(--shadow-elevation-8dp);*/
       }
       .button {
         text-align: center;

@@ -74,16 +74,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-toolbar>
 
         <!-- Main Content -->
-        <iron-pages fit  class="Main-content" attr-for-selected="data-route" selected="{{route}}">
-          <poi-neon-viewer class="Page" data-route="home">Poi</poi-neon-viewer>
+        <iron-pages class="Main-content" attr-for-selected="data-route" selected="{{route}}">
 
-          <section class="Page" data-route="view">
+          <section class="Page fit" data-route="home">
+
             <!-- Swipe Page -->
-            <iron-pages attr-for-selected="data-route" selected="{{childRoute}}">
-              <section class="Page" data-route="home/1">
-                <paper-material class="Page-paper" elevation="1">
-                  <h1>Poi</h1>
-                </paper-material>
+            <iron-pages class="fit" attr-for-selected="data-route" selected="{{childRoute}}">
+              <section class="Page fit" data-route="home/1">
+                <!--<paper-material class="Page-paper" elevation="1">-->
+                  <!--<h1>Poi</h1>-->
+                <!--</paper-material>-->
+                <poi-neon-viewer class="Main-viewer fit" style="padding-top: 255px" ></poi-neon-viewer>
                 <!--<poi-viewer id="poiViewer" request-target="http://johnson.test:4300/" scroll-target="#headerPanelMain">Poi-viewer</poi-viewer>-->
               </section>
               <section class="Page" data-route="home/2">

@@ -14,8 +14,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   @nest &-content {
     @apply(--paper-font-body1);
-    @apply(--layout-fullbleed);
+
     color: var(--primary-text-color);
+
     @media (--md-viewport) {
       @apply(--paper-font-body2);
       padding: 48px 62px;

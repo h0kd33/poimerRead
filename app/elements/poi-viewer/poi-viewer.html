@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- iron elements -->
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
@@ -35,14 +36,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       :host {
-        @apply(--layout-fullbleed);
-        @apply(--layout-relative);
+        @apply(--layout-vertical);
       }
       :host:not([response-mode]) #forwardButton {
         display: none
       }
       :host[response-mode] #replyButton{
         display: none;
+      }
+      #container /* .main */ {
+        @apply(--layout-flex);
+        @apply(--layout-scroll);
+        @apply(--layout-vertical);
+      }
+      #ironList {
+        @apply(--layout-flex);
       }
       paper-material {
         padding: 8px;
@@ -102,19 +110,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax id="requestMorePage" content-type="application/json" on-response="_loadComplete" debounce-duration="500"  last-response="{{tmpData}}" loading="{{loading}}"></iron-ajax>
 
     <!-- iron-list using the document scroll -->
-    <iron-scroll-threshold on-lower-threshold="_loadMoreData" id="ironThreshold">
-      <iron-list items="[[data]]" as="item" id="ironList">
-        <template>
+    <div id="container">
+      <iron-scroll-threshold on-lower-threshold="_loadMoreData" id="ironThreshold"></iron-scroll-threshold>
 
+      <iron-list items="[[data]]" as="item" id="ironList">
+
+        <template>
           <div id="section" page-gap$="{{_pageGap(index)}}">
             <div class="item" tabindex$="[[tabIndex]]">
               <paper-material class="Page-paper" elevation="1">
                 <!--href="/response/[[item.serial]]-->
-                <a id="replyButton" on-click="_onPolymerClick">[ 返信 ]</a>
+                <paper-button id="replyButton" on-click="_onPolymerClick">[ 返信 ]</paper-button>
                 <a id="forwardButton" href="/">[ 回首頁 ]</a>
                 <template is="dom-if" if="[[item.image]]">
                   <a href="[[item.image]]" target="_blank">
-                    <iron-image preload fade loaded-changed="{{_updateSize(index)}}" src="[[item.thumb]]"></iron-image>
+                    <iron-image preload fade loaded-changed="{{_updateSize(index)}}"
+                                src="[[item.thumb]]"></iron-image>
                   </a>
                 </template>
                 <div class="primary">
@@ -132,7 +143,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <iron-image loaded-changed="{{_updateSize(index)}}" src="[[response.thumb]]"></iron-image>
                         </a>
                       </template>
-                      <div class="primary"><template is="juicy-html" content$="[[response.text]]"></template></div>
+                      <div class="primary">
+                        <template is="juicy-html" content$="[[response.text]]"></template>
+                      </div>
                     </div>
 
                   </template>
@@ -141,10 +154,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </div>
           </div>
-
         </template>
+
       </iron-list>
-    </iron-scroll-threshold>
+    </div>
 
     <template is="dom-if" if="{{loading}}">
       <div id="bottomSpinner">
@@ -170,12 +183,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object,
           value: function() {
             return {
-              'entry': [{
-                name: 'fade-in-animation'
-              }],
+              'entry': [],
               'exit': [{
-                name: 'fade-out-animation'
-              }, {
                 name: 'hero-animation',
                 id: 'hero',
                 fromPage: this
@@ -227,8 +236,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * Setup Scroll target for list element
          * */
         var scrollTarget = document.querySelector( this.scrollTarget).scroller;
-        this.$.ironList.scrollTarget = scrollTarget;
-        this.$.ironThreshold.scrollTarget = scrollTarget;
       },
       _updateSize: function(index) {
         /**
@@ -289,16 +296,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           that.push('data',item);
         });
       },
-      _injectHTML: function(e){
-        /**
-         * Building
-         * */
-        console.log(e);
-      },
       _onPolymerClick: function(e) {
+        var target = e.target;
+
         this.sharedElements = {
-          'hero': e.target.parentNode
+          'hero': target,
         };
+
         this.fire('open-reader-click', {page: 2});
       }
     });

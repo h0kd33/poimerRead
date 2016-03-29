@@ -25,10 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       :host {
-        /*@apply(--layout-fullbleed);*/
-        @apply(--layout-relative);
         @apply(--paper-font-common-base);
-        padding: 5px;
+        display: block;
       }
       neon-animated-pages {
         height: 100%;
@@ -59,6 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _onCloseReaderClick: function(e) {
         this.$.pages.selected = 0;
       }
+
     });
   })();
   </script>
