@@ -1,0 +1,307 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- iron elements -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+
+<!-- paper elements -->
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+
+<!-- for HTML injection -->
+<link rel="import" href="../../bower_components/juicy-html/juicy-html.html">
+
+<!-- style -->
+<link rel="import" href="../../themes/default-theme/theme.html">
+
+<dom-module id="poi-viewer">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-fullbleed);
+        @apply(--layout-relative);
+      }
+      :host:not([response-mode]) #forwardButton {
+        display: none
+      }
+      :host[response-mode] #replyButton{
+        display: none;
+      }
+      paper-material {
+        padding: 8px;
+        margin: 0 8px 5px 8px;
+      }
+
+      .primary {
+        word-break: break-all;
+        padding: 16px 20px;
+      }
+      iron-image {
+       margin: 10px 20px 0 20px;
+      }
+      paper-material {
+        background-color: #ffffee;
+      }
+      #replyButton {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+      #ironList {
+        --iron-list-items-container: {
+          color: #800000;
+        }
+      }
+      #ironList [page-gap^=is]:before {
+        content: "這裡第 " attr(page-gap) " 臨時分頁區";
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        top: -30px;
+        text-align: center;
+        color: #8a8a8a;
+        width: 100%;
+        border-top: 3px dashed #dddddd;
+      }
+      #ironList [page-gap^=is] {
+        margin-top: 45px;
+      }
+      #bottomSpinner {
+        width: 100%;
+        height: 200px;
+        padding: 30px 0 0 0;
+        text-align: center;
+      }
+      #bottomSpinner paper-spinner {
+        background-color: white;
+        padding: 8px;
+        border-radius: 30px;
+        box-shadow: 0 0 8px #999;
+      }
+
+    </style>
+
+    <iron-ajax id="requestArticle" url="{{requestTarget}}" on-response="_loadComplete" debounce-duration="500" last-response="{{data}}" loading="{{loading}}" auto></iron-ajax>
+    <iron-ajax id="requestMorePage" content-type="application/json" on-response="_loadComplete" debounce-duration="500"  last-response="{{tmpData}}" loading="{{loading}}"></iron-ajax>
+
+    <!-- iron-list using the document scroll -->
+    <iron-scroll-threshold on-lower-threshold="_loadMoreData" id="ironThreshold">
+      <iron-list items="[[data]]" as="item" id="ironList">
+        <template>
+
+          <div id="section" page-gap$="{{_pageGap(index)}}">
+            <div class="item" tabindex$="[[tabIndex]]">
+              <paper-material class="Page-paper" elevation="1">
+                <!--href="/response/[[item.serial]]-->
+                <a id="replyButton" on-click="_onPolymerClick">[ 返信 ]</a>
+                <a id="forwardButton" href="/">[ 回首頁 ]</a>
+                <template is="dom-if" if="[[item.image]]">
+                  <a href="[[item.image]]" target="_blank">
+                    <iron-image preload fade loaded-changed="{{_updateSize(index)}}" src="[[item.thumb]]"></iron-image>
+                  </a>
+                </template>
+                <div class="primary">
+
+                  <template is="juicy-html" content$='[[item.text]]'></template>
+                </div>
+
+                <div>
+                  <h4>[[item.responseCounts]]</h4>
+                  <template is="dom-repeat" items="[[item.response]]" as="response">
+
+                    <div style="background: #F0E0D6; margin-bottom: 3px; display: table">
+                      <template is="dom-if" if="[[response.image]]">
+                        <a href="[[response.image]]" target="_blank">
+                          <iron-image loaded-changed="{{_updateSize(index)}}" src="[[response.thumb]]"></iron-image>
+                        </a>
+                      </template>
+                      <div class="primary"><template is="juicy-html" content$="[[response.text]]"></template></div>
+                    </div>
+
+                  </template>
+                </div>
+
+              </paper-material>
+            </div>
+          </div>
+
+        </template>
+      </iron-list>
+    </iron-scroll-threshold>
+
+    <template is="dom-if" if="{{loading}}">
+      <div id="bottomSpinner">
+        <paper-spinner active="{{loading}}"></paper-spinner>
+      </div>
+    </template>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+
+    Polymer({
+      is: 'poi-viewer',
+
+      behaviors: [
+        Polymer.NeonAnimatableBehavior
+      ],
+
+      properties: {
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'fade-in-animation'
+              }],
+              'exit': [{
+                name: 'fade-out-animation'
+              }, {
+                name: 'hero-animation',
+                id: 'hero',
+                fromPage: this
+              }]
+            };
+          }
+        },
+        data: {
+          type: Array,
+          value: function() { return [] }
+        },
+        tmpData: {
+          type: Array,
+          observer: '_tmpDataChanged'
+        },
+        scrollTarget: {
+          type: String
+        },
+        requestTarget: {
+          type: String
+        },
+        responseMode: {
+          type: Boolean
+        },
+        firstPage: {
+          type: Number,
+          value: 0
+        },
+        requestedPage: {
+          type: Number
+        },
+        initialized: {
+          type: Boolean,
+          value: false
+        },
+        hostLoading:{
+          type: Boolean,
+          notify: true
+        }
+
+      },
+      listeners: {
+        'refresh':'_refresh'
+      },
+      ready: function() {
+      },
+      attached: function() {
+        /**
+         * Setup Scroll target for list element
+         * */
+        var scrollTarget = document.querySelector( this.scrollTarget).scroller;
+        this.$.ironList.scrollTarget = scrollTarget;
+        this.$.ironThreshold.scrollTarget = scrollTarget;
+      },
+      _updateSize: function(index) {
+        /**
+         * 臨時用
+         * 當圖片讀取完成後，重整 iron-list 高度
+         * */
+        Polymer.Base.async( function() { document.querySelector('#ironList').updateSizeForItem(index);}, 250);
+      },
+      _pageGap: function(index) {
+        if( index % 10 === 0 && index !== 0 ) {
+          return 'is-page-gap-' + ( index / 10 );
+        }
+        return '';
+      },
+      _refresh: function(e) {
+        /**
+         * 臨時用
+         * 重新發送ajax-request
+         * */
+        console.log( 'fired');
+        this.$.requestArticle.generateRequest();
+        this.requestedPage = null;
+      },
+      _loadComplete: function(e) {
+        this.initialized = true;
+        console.log(e.target.id + ' ajax end');
+      },
+      _loadMoreData: function(e)  {
+
+
+        if( this.initialized === false ) return (function() {
+          console.log('因為主頁正在讀取中所以暫停請求')
+          e.target.clearTriggers();
+        })();
+
+        /**
+         * 應該使用 iron-ajax.props.queriyString 改寫
+         * */
+        console.log('捲動至底，建立新頁面請求...')
+        var ajax = this.$.requestMorePage;
+        // 如果沒有讀取過的新頁面，設定初始頁數
+        if( this.requestedPage === undefined ) this.requestedPage = this.firstPage;
+        // 設定讀取目標 url
+        var url = this.requestTarget + '?page=' + ( this.requestedPage + 1 );
+        this.requestedPage ++;
+        console.log( '正在請求: ' + url);
+        setTimeout(function() {
+          ajax.url = url;
+          ajax.generateRequest();
+          e.target.clearTriggers();
+        },  1000);
+      },
+      _tmpDataChanged: function( newer , older )  {
+        if (older === newer) return console.log( 'old data');
+        console.log('new data is appending...');
+        var that = this;
+        newer.map(function(item){
+          that.push('data',item);
+        });
+      },
+      _injectHTML: function(e){
+        /**
+         * Building
+         * */
+        console.log(e);
+      },
+      _onPolymerClick: function(e) {
+        this.sharedElements = {
+          'hero': e.target.parentNode
+        };
+        this.fire('open-reader-click', {page: 2});
+      }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,158 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html lang="{$ lang $}">
+{% include "head.html" %}
+<body unresolved class="fullbleed vertical layout">
+  <span id="browser-sync-binding"></span>
+  <template is="dom-bind" id="app">
+
+    <paper-drawer-panel id="paperDrawerPanel" responsive-width="599px">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel class="Drawer" drawer fixed>
+        <!-- Drawer Toolbar -->
+        <paper-toolbar class="Drawer-header">
+          <span class="Drawer-title">Menu</span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <!-- Navigation -->
+        <nav>
+        <paper-menu class="Drawer-widget Navigation list" attr-for-selected="data-route" selected="[[route]]">
+          <a class="Navigation-link" data-route="home" href="/" on-tap="onDataRouteClick">
+            <iron-icon class="Navigation-icon" icon="home"></iron-icon>
+            <span>Home</span>
+          </a>
+
+          <a class="Navigation-link" data-route="users" href="/users" on-tap="onDataRouteClick">
+            <iron-icon class="Navigation-icon" icon="info"></iron-icon>
+            <span>Users</span>
+          </a>
+
+          <a class="Navigation-link" data-route="contact" href="/contact" on-tap="onDataRouteClick">
+            <iron-icon class="Navigation-icon" icon="mail"></iron-icon>
+            <span>Contact</span>
+          </a>
+
+          <a class="Navigation-link" data-route="/home/3" href="/3" on-tap="onDataRouteClick">
+            <iron-icon class="Navigation-icon" icon="people"></iron-icon>
+            <span>home/3</span>
+          </a>
+        </paper-menu>
+        </nav>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel id="headerPanelMain" class="Main" main condenses keep-condensed-header>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar class="Main-header tall">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+
+          <!-- Toolbar icons -->
+          <paper-icon-button id="refreshButton" on-tap="onRefreshButtonTap" icon="refresh"></paper-icon-button>
+
+          <!-- Application name -->
+          <div class="Main-headerMiddleContent middle center horizontal layout">
+            <h1 class="Main-headerTitle">Poimer Komica Viewer</h1>
+          </div>
+
+          <!-- Application sub title -->
+          <div class="Main-headerBottomContent bottom center horizontal layout">
+            <div class="Main-headerSubTitle">The future of the web today</div>
+          </div>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <iron-pages fit  class="Main-content" attr-for-selected="data-route" selected="{{route}}">
+          <poi-neon-viewer class="Page" data-route="home">Poi</poi-neon-viewer>
+
+          <section class="Page" data-route="view">
+            <!-- Swipe Page -->
+            <iron-pages attr-for-selected="data-route" selected="{{childRoute}}">
+              <section class="Page" data-route="home/1">
+                <paper-material class="Page-paper" elevation="1">
+                  <h1>Poi</h1>
+                </paper-material>
+                <!--<poi-viewer id="poiViewer" request-target="http://johnson.test:4300/" scroll-target="#headerPanelMain">Poi-viewer</poi-viewer>-->
+              </section>
+              <section class="Page" data-route="home/2">
+                <!--<poi-viewer id="poiViewerRes" response-mode request-target$="http://johnson.test:4300/response/{{params.serial}}" scroll-target="#headerPanelMain">Poi-viewer</poi-viewer>-->
+              </section>
+              <section class="Page" data-route="home/3">
+                <h3>third page</h3>
+              </section>
+            </iron-pages>
+
+
+            <!-- Md render -->
+            <!--<paper-material class="Page-paper" elevation="1">-->
+              <!--{% markdown "license.md" %}-->
+            <!--</paper-material>-->
+          </section>
+
+          <section class="Page" data-route="users">
+            <paper-material class="Page-paper" elevation="1">
+              <h2 class="Page-title">Users</h2>
+              <p>This is the users section</p>
+              <a href="/users/Rob">Rob</a>
+            </paper-material>
+          </section>
+
+          <section class="Page" data-route="user-info">
+            <paper-material class="Page-paper" elevation="1">
+              <h2 class="Page-title" name$="{{params.name}}">User: {{params.name}}</h2>
+              <div>This is {{params.name}}'s section</div>
+            </paper-material>
+          </section>
+
+          <section class="Page" data-route="contact">
+            <paper-material class="Page-paper" elevation="1">
+              <h2 class="Page-title">Contact</h2>
+              <p>This is the contact section</p>
+            </paper-material>
+          </section>
+
+        </iron-pages>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+
+    <paper-toast id="toastConfirm" class="Toast" duration="10000">
+      <span class="Toast-button" role="button" tabindex="0" on-tap="onToastConfirmTap">OK</span>
+    </paper-toast>
+
+    <paper-toast id="toastInfo" class="Toast" duration="8000"></paper-toast>
+
+    <!-- Service Worker support -->
+    <platinum-sw-register auto-register
+                          clients-claim
+                          skip-waiting
+                          on-service-worker-installed="displayInstalledToast">
+      <!-- Google Analytics offline support -->
+      <platinum-sw-offline-analytics></platinum-sw-offline-analytics>
+      <platinum-sw-cache default-cache-strategy="fastest"
+                         cache-config-file="cache-config.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+
+  </template>
+
+  <!-- build:js scripts/app.js -->
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
+
+  <!-- Google Analytics code -->
+  <start-google-analytics-tracker code="UA-XXXXX-Y"></start-google-analytics-tracker>
+</body>
+
+</html>
