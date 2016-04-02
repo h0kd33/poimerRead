@@ -1,0 +1,228 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../../../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../../../bower_components/neon-animation/neon-animation.html">
+
+<link rel="import" href="../../../bower_components/juicy-html/juicy-html.html">
+
+
+<dom-module id="article-viewer">
+  <template>
+    <style include="iron-flex iron-flex-alignment iron-positioning">
+      :host {
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+        color: #800000;
+      }
+      #mainThumb {
+        width: 180px;
+        height: 180px;
+        float: left;
+      }
+      iron-list {
+        height: 100%;
+        padding: 20px;
+      }
+      #container {
+        padding-bottom: 40px;
+      }
+      #manage {
+        font-size: 13px;
+      }
+      .text {
+        display: block;
+      }
+      .response {
+        display: table;
+        margin-bottom: 3px;
+        background: #F0E0D6;
+      }
+      .response .text {
+        margin: 10px 20px;
+      }
+      .respinse #thumbResponse {
+        height: 120px;
+        width: 120px;
+        float: left;
+      }
+      #textEditor{
+        --paper-dialog: {
+          position: fixed;
+          max-width: 600px;
+          bottom: 0;
+          right: 0;
+        }
+      }
+      #textEditor #editorTextarea {
+        max-height: 450px;
+      }
+
+      /* Paper Style */
+
+      paper-button {
+        font-size: 13px;
+
+      }
+      paper-button iron-icon {
+        vertical-align: -5px;
+        padding-right: 5px;
+      }
+      paper-button.green {
+        background-color: var(--paper-green-300);
+        color: white;
+      }
+    </style>
+    <style is="custom-style">
+      paper-button iron-icon {
+        --iron-icon-height: 20px;
+        --iron-icon-width: 20px;
+      }
+    </style>
+
+    <iron-list id="ironList" class="layout vertical flex scroll" items="[[data]]" as="item" >
+
+      <template>
+        <div id="container" class="flex">
+          <hr>
+          <div id="manage" class="layout horizontal">
+            <div>
+              <paper-button href="#" on-tap="_onEditorOpenTap"><iron-icon icon="editor:mode-edit"></iron-icon>編輯</paper-button>
+              <paper-button ><iron-icon icon="icons:lock-outline"></iron-icon>鎖定</paper-button>
+              <paper-button ><iron-icon icon="icons:open-in-new"></iron-icon>開新視窗</paper-button>
+            </div>
+            <div class="layout horizontal" style="margin-left:auto">
+              <paper-toggle-button >Sage</paper-toggle-button>
+              <paper-menu-button horizontal-align="right">
+                <paper-icon-button icon="icons:more-vert" class="dropdown-trigger"></paper-icon-button>
+                <paper-menu class="dropdown-content">
+                  <paper-item>Share</paper-item>
+                  <paper-item>Settings</paper-item>
+                  <paper-item>Help</paper-item>
+                </paper-menu>
+              </paper-menu-button>
+            </div>
+          </div>
+
+          <template is="dom-if" if="[[item.thumb]]">
+            <iron-image id="mainThumb" src="[[item.thumb]]" sizing="cover" > </iron-image>
+          </template>
+
+          <div class="text text-main"><template is="juicy-html" content$="[[item.text]]"></template></div>
+          <div>[[item.serial]]</div>
+
+          <h4>[[data.responseCounts]]</h4>
+
+          <template is="dom-if" if="[[item.responseCounts]]">
+            <a href="#">[[item.responseCounts]]</a>
+          </template>
+
+          <template is="dom-repeat" items="[[item.response]]" as="response">
+
+            <div class="response">
+              <div class="layout vertical">
+                <div class="layout horizontal">
+                  <paper-button href="#" on-tap="_onEditorOpenTap"><iron-icon icon="editor:mode-edit"></iron-icon>編輯</paper-button>
+                </div>
+                <template is="dom-if" if="[[response.image]]">
+                  <a href="[[response.image]]" target="_blank">
+                    <iron-image id="thumbResponse" src="[[response.thumb]]" sizing="cover"></iron-image>
+                  </a>
+                </template>
+                <div class="text text-response">
+                  <template is="juicy-html" content$="[[response.text]]"></template>
+                </div>
+              </div>
+            </div>
+
+          </template>
+        </div>
+      </template>
+
+    </iron-list>
+
+    <paper-dialog id="textEditor" exit-animation="fade-out-animation" entry-animation="slide-from-bottom-animation" no-cancel-on-outside-click>
+      <div class="layout vertical">
+        <h2 id="editorTitle">編輯內文</h2>
+        <form action="">
+          <iron-autogrow-textarea name="" id="editorTextarea" rows="8">asdsad</iron-autogrow-textarea>
+        </form>
+        <div class="layout horizontal">
+          <paper-button dialog-dismiss><iron-icon icon="icons:close"></iron-icon>取消</paper-button>;
+          <paper-button dialog-confirm class="green" style="margin-left: auto ">儲存</paper-button>
+        </div>
+      </div>
+    </paper-dialog>
+
+    <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'article-viewer',
+
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
+        properties: {
+
+          animationConfig: {
+            type: Object,
+            value: function() {
+              return {
+                'entry': [{
+                  name: 'slide-from-left-animation',
+                  node: this
+                }],
+                'exit': [{
+                  name: 'slide-left-animation',
+                  node: this
+                }]
+              }
+            }
+          }
+
+        },
+        _onEditorOpenTap: function(e){
+          this.$.textEditor.open();
+          var text = e.model.item === undefined ?
+          e.model.response.text:
+          e.model.item.text;
+          var textarea = this.$.editorTextarea;
+          textarea.setAttribute( 'value', text);
+        }
+      });
+    })();
+  </script>
+</dom-module>

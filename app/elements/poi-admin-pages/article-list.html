@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+
+<!---->
+<link rel="import" href="../../../bower_components/neon-animation/neon-animatable-behavior.html">
+
+<link rel="import" href="../../../bower_components/carbon-route/carbon-route.html">
+
+<link rel="import" href="../../../bower_components/juicy-html/juicy-html.html">
+
+
+
+<dom-module id="article-list">
+  <template>
+    <style include="iron-flex iron-flex-alignment iron-positioning">
+      :host {
+        @apply(--layout-vertical);
+        color: #800000;
+        background-color: #ffffee;
+      }
+      iron-image {
+        width: 90px;
+        height: 90px;
+      }
+      iron-list {
+        height: 100%;
+      }
+      .item {
+        @apply(--paper-font-body1);
+        font-size: 13px;
+        padding-left: 0;
+        border: solid #acacac;
+        border-width: 0 0 1px 0;
+      }
+      .item[selected] {
+        background-color: rgba(0,0,0,0.05);
+      }
+      paper-item-body {
+        padding-left: 20px;
+      }
+      paper-item:nth-child(odd) {
+      }
+    </style>
+
+
+    <iron-list id="ironList" class="layout vertical flex scroll" items="[[data]]" as="item" selection-enabled>
+
+      <template>
+
+          <div tabindex$="[[tabIndex]]"  class="flex layout horizontal item" on-tap="_onItemTap"" selected$="[[_computeSelect(selected)]]">
+            <template is="dom-if" if="[[item.thumb]]">
+              <iron-image item-icon src="[[item.thumb]]" sizing="cover" > </iron-image>
+            </template>
+            <div class="flex">
+              <div>[[item.serial]]</div>
+              <div  secondary><template is="juicy-html" content$="[[item.text]]"></template></div>
+            </div>
+          </div>
+
+      </template>
+
+    </iron-list>
+
+    <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'article-list',
+
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
+
+        properties: {
+          data: {
+            type: Array,
+            value: function(){ return []}
+          },
+          animationConfig: {
+            type: Object,
+            value: function() {
+              return {
+                'entry': [{
+                  name: 'fade-in-animation'
+                }],
+                'exit': [{
+                  name: 'fade-out-animation'
+                }]
+              }
+            }
+          }
+        },
+        _onItemTap: function(e) {
+          this.fire('scroll-to', {
+            'serial': e.model.item.serial,
+            'index': e.model.index
+          });
+        },
+        _computeSelect: function(selected) {
+          return selected? true: false;
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

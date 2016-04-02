@@ -16,7 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 
 <!-- paper elements -->
@@ -26,8 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 
-<!-- for HTML injection -->
-<link rel="import" href="../../bower_components/juicy-html/juicy-html.html">
+<!-- poi elements-->
+<link rel="import" href="../../bower_components/poi-article">
 
 <!-- style -->
 <link rel="import" href="../../themes/default-theme/theme.html">
@@ -38,12 +37,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         @apply(--layout-vertical);
       }
-      :host:not([response-mode]) #forwardButton {
-        display: none
-      }
-      :host[response-mode] #replyButton{
-        display: none;
-      }
       #container /* .main */ {
         @apply(--layout-flex);
         @apply(--layout-scroll);
@@ -52,29 +45,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #ironList {
         @apply(--layout-flex);
       }
-      paper-material {
-        padding: 8px;
-        margin: 0 8px 5px 8px;
-      }
 
-      .primary {
-        word-break: break-all;
-        padding: 16px 20px;
-      }
-      iron-image {
-       margin: 10px 20px 0 20px;
-      }
-      paper-material {
-        background-color: #ffffee;
-      }
-      #replyButton {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-      }
       #ironList {
         --iron-list-items-container: {
-          color: #800000;
+
         }
       }
       #ironList [page-gap^=is]:before {
@@ -91,6 +65,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #ironList [page-gap^=is] {
         margin-top: 45px;
       }
+
+      /* Loading Spinner */
       #bottomSpinner {
         width: 100%;
         height: 200px;
@@ -111,49 +87,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- iron-list using the document scroll -->
     <div id="container">
-      <iron-scroll-threshold on-lower-threshold="_loadMoreData" id="ironThreshold"></iron-scroll-threshold>
+      <iron-scroll-threshold scroll-target="ironList" on-lower-threshold="_loadMoreData" id="ironThreshold"></iron-scroll-threshold>
 
-      <iron-list items="[[data]]" as="item" id="ironList">
+      <iron-list items="[[data]]" as="item" id="ironList" on-image-update-size="_imageUpdateSize" on-article-open-reader-click="_openReader">
 
         <template>
-          <div id="section" page-gap$="{{_pageGap(index)}}">
-            <div class="item" tabindex$="[[tabIndex]]">
-              <paper-material class="Page-paper" elevation="1">
-                <!--href="/response/[[item.serial]]-->
-                <paper-button id="replyButton" on-click="_onPolymerClick">[ 返信 ]</paper-button>
-                <a id="forwardButton" href="/">[ 回首頁 ]</a>
-                <template is="dom-if" if="[[item.image]]">
-                  <a href="[[item.image]]" target="_blank">
-                    <iron-image preload fade loaded-changed="{{_updateSize(index)}}"
-                                src="[[item.thumb]]"></iron-image>
-                  </a>
-                </template>
-                <div class="primary">
-
-                  <template is="juicy-html" content$='[[item.text]]'></template>
-                </div>
-
-                <div>
-                  <h4>[[item.responseCounts]]</h4>
-                  <template is="dom-repeat" items="[[item.response]]" as="response">
-
-                    <div style="background: #F0E0D6; margin-bottom: 3px; display: table">
-                      <template is="dom-if" if="[[response.image]]">
-                        <a href="[[response.image]]" target="_blank">
-                          <iron-image loaded-changed="{{_updateSize(index)}}" src="[[response.thumb]]"></iron-image>
-                        </a>
-                      </template>
-                      <div class="primary">
-                        <template is="juicy-html" content$="[[response.text]]"></template>
-                      </div>
-                    </div>
-
-                  </template>
-                </div>
-
-              </paper-material>
-            </div>
-          </div>
+          <poi-article data="[[item]]" article-index="[[index]]" page-gap$="{{_pageGap(index)}}" ></poi-article>
         </template>
 
       </iron-list>
@@ -183,8 +122,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object,
           value: function() {
             return {
-              'entry': [],
+              'entry': [{
+                name: 'slide-from-left-animation',
+                node: this
+              }],
               'exit': [{
+                name: 'slide-left-animation',
+                node: this
+                }, {
                 name: 'hero-animation',
                 id: 'hero',
                 fromPage: this
@@ -200,14 +145,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Array,
           observer: '_tmpDataChanged'
         },
-        scrollTarget: {
-          type: String
-        },
         requestTarget: {
           type: String
-        },
-        responseMode: {
-          type: Boolean
         },
         firstPage: {
           type: Number,
@@ -229,20 +168,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners: {
         'refresh':'_refresh'
       },
-      ready: function() {
-      },
-      attached: function() {
-        /**
-         * Setup Scroll target for list element
-         * */
-        var scrollTarget = document.querySelector( this.scrollTarget).scroller;
-      },
-      _updateSize: function(index) {
+      ready: function() {   },
+      attached: function() {   },
+      _imageUpdateSize: function(e) {
         /**
          * 臨時用
          * 當圖片讀取完成後，重整 iron-list 高度
          * */
-        Polymer.Base.async( function() { document.querySelector('#ironList').updateSizeForItem(index);}, 250);
+        var articleindex = e.detail.articleindex;
+        this.async( function(){  this.$.ironList.updateSizeForItem(articleindex); /* console.log( ' update for index : '+ e.detail.articleindex ); */ } , 500);
+        // this.debounce( e, function(){ this.$.ironList.notifyResize(); console.log('all resized'); } , 200);
+
       },
       _pageGap: function(index) {
         if( index % 10 === 0 && index !== 0 ) {
@@ -278,6 +214,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var ajax = this.$.requestMorePage;
         // 如果沒有讀取過的新頁面，設定初始頁數
         if( this.requestedPage === undefined ) this.requestedPage = this.firstPage;
+
         // 設定讀取目標 url
         var url = this.requestTarget + '?page=' + ( this.requestedPage + 1 );
         this.requestedPage ++;
@@ -296,15 +233,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           that.push('data',item);
         });
       },
-      _onPolymerClick: function(e) {
-        var target = e.target;
-
+      _openReader: function(e) {
         this.sharedElements = {
-          'hero': target,
+          'hero': e.detail.target
         };
-
-        this.fire('open-reader-click', {page: 2});
       }
+
     });
   })();
   </script>

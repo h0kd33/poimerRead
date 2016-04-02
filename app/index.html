@@ -51,10 +51,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel>
 
       <!-- Main Area -->
-      <paper-scroll-header-panel id="headerPanelMain" class="Main" main condenses keep-condensed-header>
+      <paper-scroll-header-panel id="headerPanelMain" class="Main" main >
 
         <!-- Main Toolbar -->
-        <paper-toolbar class="Main-header tall">
+        <paper-toolbar class="Main-header">
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
           <span class="flex"></span>
 
@@ -63,13 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="Main-headerMiddleContent middle center horizontal layout">
-            <h1 class="Main-headerTitle">Poimer Komica Viewer</h1>
+            <h1 class="Main-headerTitle">PoimerReader</h1>
           </div>
 
-          <!-- Application sub title -->
-          <div class="Main-headerBottomContent bottom center horizontal layout">
-            <div class="Main-headerSubTitle">The future of the web today</div>
-          </div>
+
 
         </paper-toolbar>
 
@@ -84,7 +81,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <!--<paper-material class="Page-paper" elevation="1">-->
                   <!--<h1>Poi</h1>-->
                 <!--</paper-material>-->
-                <poi-neon-viewer class="Main-viewer fit" style="padding-top: 255px" ></poi-neon-viewer>
+                <poi-neon-pages class="Main-viewer fit" style="padding-top: 6.5vh" ></poi-neon-pages>
                 <!--<poi-viewer id="poiViewer" request-target="http://johnson.test:4300/" scroll-target="#headerPanelMain">Poi-viewer</poi-viewer>-->
               </section>
               <section class="Page" data-route="home/2">

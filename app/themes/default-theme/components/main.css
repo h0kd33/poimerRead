@@ -14,7 +14,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   @nest &-content {
     @apply(--paper-font-body1);
-
     color: var(--primary-text-color);
 
     @media (--md-viewport) {
@@ -44,7 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     /* Required for main area's paper-scroll-header-panel custom condensing transformation */
     transform-origin: left center;
     @media (--md-viewport) {
-      @apply(--paper-font-display2);
+      @apply(--paper-font-title);
     }
   }
 

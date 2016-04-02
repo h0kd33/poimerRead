@@ -11,7 +11,9 @@
     "polymer": "Polymer/polymer#1.2.x",
     "start-elements": "StartPolymer/start-elements#1.1.x",
     "iron-swipeable-pages": "^1.0.9",
-    "juicy-html": "Juicy/juicy-html#^1.1.0"
+    "juicy-html": "Juicy/juicy-html#^1.1.0",
+    "swiper-behavior": "ciampo/swiper-behavior#^1.1.2",
+    "carbon-route": "^0.8.4"
   },
   "devDependencies": {}
 }

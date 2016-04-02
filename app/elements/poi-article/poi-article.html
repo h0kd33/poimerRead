@@ -1,0 +1,127 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!-- iron elements -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+<!-- paper elements -->
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<!-- for HTML injection -->
+<link rel="import" href="../../bower_components/juicy-html/juicy-html.html">
+
+
+<dom-module id="poi-article">
+  <template>
+    <style>
+      :host {
+        display: block;
+        color: #800000;
+      }
+      :host[reader-mode] #replyButton{
+        display: none;
+      }
+      paper-material {
+         padding: 8px;
+         margin: 0 8px 5px 8px;
+       }
+
+      .primary {
+        word-break: break-all;
+        padding: 16px 20px;
+      }
+      iron-image {
+        margin: 10px 20px 0 20px;
+      }
+      paper-material {
+        background-color: #ffffee;
+      }
+      #replyButton {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+    </style>
+
+    <div id="article">
+      <div class="item" tabindex$="[[tabIndex]]">
+        <paper-material class="Page-paper" elevation="1">
+          <!--href="/response/[[data.serial]]-->
+          <paper-button id="replyButton" on-click="_onArticleOpenReaderClick">[ 返信 ]</paper-button>
+          <template is="dom-if" if="[[data.image]]">
+            <a href="[[data.image]]" target="_blank">
+              <iron-image id="thumbMain" preload fade on-loaded-changed="_onImageUpdateSize" src="[[data.thumb]]"></iron-image>
+            </a>
+          </template>
+          <div class="primary">
+
+            <template is="juicy-html" content$='[[data.text]]'></template>
+          </div>
+
+          <div>
+            <h4>[[data.responseCounts]]</h4>
+            <template is="dom-repeat" items="[[data.response]]" as="response">
+
+              <div style="background: #F0E0D6; margin-bottom: 3px; display: table">
+                <template is="dom-if" if="[[response.image]]">
+                  <a href="[[response.image]]" target="_blank">
+                    <iron-image on-loaded-changed="_onImageUpdateSize" id="thumbResponse" src="[[response.thumb]]"></iron-image>
+                  </a>
+                </template>
+                <div class="primary">
+                  <template is="juicy-html" content$="[[response.text]]"></template>
+                </div>
+              </div>
+
+            </template>
+          </div>
+
+        </paper-material>
+      </div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'poi-article',
+
+      properties: {
+        data: {
+          type: Array,
+          value: function() { return [];}
+        }
+      },
+      observers: [
+        ''
+      ],
+      _onImageUpdateSize: function(e) {
+        this.fire('image-update-size', {'articleindex': this.articleIndex});
+      },
+      _onArticleOpenReaderClick: function(e){
+        this.fire('open-reader-click',
+          {
+            'target': e.target,
+            'responseSerial': this.data.serial
+          }
+        );
+        console.log( this.data.serial)
+      }
+
+    });
+  })();
+  </script>
+</dom-module>

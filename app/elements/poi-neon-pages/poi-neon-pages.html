@@ -15,13 +15,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
-<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
-
-<link rel="import" href="x-cards-list.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
 
 <link rel="import" href="../poi-reader-page/poi-reader-page.html">
+<link rel="import" href="../poi-viewer/poi-viewer.html">
 
-<dom-module id="poi-neon-viewer">
+<dom-module id="poi-neon-pages">
   <template>
     <style>
       :host {
@@ -38,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <poi-viewer  id="poiViewer" request-target="http://johnson.test:4300/" scroll-target="#headerPanelMain"></poi-viewer>
 
-      <poi-reader-page></poi-reader-page>
+      <poi-reader-page id="readerPage"></poi-reader-page>
 
     </neon-animated-pages>
   </template>
@@ -47,12 +46,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     'use strict';
 
     Polymer({
-      is: 'poi-neon-viewer',
+      is: 'poi-neon-pages',
 
       properties: {
       },
       _onOpenReaderClick: function(e) {
         this.$.pages.selected = 1;
+        this.$.readerPage.serial = e.detail.responseSerial;
+        console.log( 'neon' + e.detail.responseSerial)
       },
       _onCloseReaderClick: function(e) {
         this.$.pages.selected = 0;

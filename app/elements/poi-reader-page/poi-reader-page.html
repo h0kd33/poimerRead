@@ -12,21 +12,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 
+<!-- poi elements-->
+<link rel="import" href="../../bower_components/poi-article">
+
 <dom-module id="poi-reader-page">
   <template>
     <style>
       :host {
         /*@apply(--layout-vertical);*/
-        /*@apply(--layout-fullbleed);*/
-        /*@apply(--layout-fit);*/
-        /*@apply(--layout-scroll);*/
-        position: fixed;
-        height:80vh;
-        bottom: 20px;
-
+        @apply(--layout-fit);
+        @apply(--layout-scroll);
+        padding: 30px 0 0 0;
       }
       #container {
-        background: white;
         /*@apply(--layout-flex);*/
 
         /*@apply(--shadow-elevation-8dp);*/
@@ -59,22 +57,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <!--<div id="placeholder"></div>-->
+    <iron-ajax id="requestArticle" on-response="_loadComplete" debounce-duration="500" last-response="{{tmpData}}" loading="{{loading}}" auto></iron-ajax>
+
     <div id="container">
-      <div class="card-contents">
-        <div class="raised back button" on-click="_onCloseReaderClick">
-          BACK
+      <a id="forwardButton" on-click="_closeReader">[ 回首頁 ]</a>
+      <poi-article id="article" data="[[data]]" reader-mode ></poi-article>
+
+      <template is="dom-if" if="{{loading}}">
+        <div id="bottomSpinner">
+          <paper-spinner active="{{loading}}"></paper-spinner>
         </div>
-        <h2>Polymer</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
+      </template>
     </div>
 
   </template>
@@ -88,7 +81,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       behaviors: [
         Polymer.NeonAnimatableBehavior
       ],
-
       properties: {
         animationConfig: {
           type: Object,
@@ -112,18 +104,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           }
         },
-
         sharedElements: {
           value: function() {
             return {
               'hero': this.$.container
             };
           }
+        },
+        serial: {
+          type: Number,
+          observer: '_sendRequest'
+        },
+        tmpData: {
+          type: Array,
+          value: function() { return [] },
+          observer: '_renderData'
         }
       },
-      _onCloseReaderClick: function(event) {
-        this.fire('close-reader-click', {})
+      _renderData: function(){
+        var obj = this.tmpData[0];
+        this.set( 'data' , obj );
+      },
+      _sendRequest: function() {
+        this.$.requestArticle.url = 'http://johnson.test:4300/response/' + this.serial;
+        console.log( 'sending response request ')
+      },
+      _loadComplete: function(e) {
+        this.initialized = true;
+        console.log(e.target.id + ' [poi-reader-page] ajax end');
+      },
+      _closeReader: function() {
+        this.fire('close-reader-click');
+        this.async(function(){ this.set( 'data' , {} ) } , 500);
       }
+
+
     });
   })();
 </script>
