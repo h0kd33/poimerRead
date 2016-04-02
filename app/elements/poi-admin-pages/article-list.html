@@ -29,15 +29,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="iron-flex iron-flex-alignment iron-positioning">
       :host {
         @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
         color: #800000;
         background-color: #ffffee;
       }
       iron-image {
         width: 90px;
         height: 90px;
-      }
-      iron-list {
-        height: 100%;
       }
       .item {
         @apply(--paper-font-body1);
@@ -57,23 +55,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
 
-    <iron-list id="ironList" class="layout vertical flex scroll" items="[[data]]" as="item" selection-enabled>
+    <div id="container" class="layout flex vertical fit">
+      <iron-list id="ironList" class="flex" items="[[data]]" as="item" selection-enabled>
 
-      <template>
-
-          <div tabindex$="[[tabIndex]]"  class="flex layout horizontal item" on-tap="_onItemTap"" selected$="[[_computeSelect(selected)]]">
-            <template is="dom-if" if="[[item.thumb]]">
-              <iron-image item-icon src="[[item.thumb]]" sizing="cover" > </iron-image>
-            </template>
-            <div class="flex">
-              <div>[[item.serial]]</div>
-              <div  secondary><template is="juicy-html" content$="[[item.text]]"></template></div>
+        <template>
+          <div tabindex$="[[tabIndex]]" class="flex layout horizontal item" on-tap="_onItemTap"
+          " selected$="[[_computeSelect(selected)]]">
+          <template is="dom-if" if="[[item.thumb]]">
+            <iron-image item-icon src="[[item.thumb]]" sizing="cover"></iron-image>
+          </template>
+          <div class="flex">
+            <div>[[item.serial]]</div>
+            <div secondary>
+              <template is="juicy-html" content$="[[item.text]]"></template>
             </div>
           </div>
+        </template>
 
-      </template>
-
-    </iron-list>
+      </iron-list>
+    </div>
 
     <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
 
@@ -86,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         is: 'article-list',
 
         behaviors: [
-          Polymer.NeonAnimatableBehavior
+//          Polymer.NeonAnimatableBehavior
         ],
 
         properties: {

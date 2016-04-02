@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<!-- iron -->
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
@@ -19,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 
+<!-- paper -->
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
@@ -29,9 +31,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
 
+<!-- neon -->
 <link rel="import" href="../../../bower_components/neon-animation/neon-animatable-behavior.html">
 <link rel="import" href="../../../bower_components/neon-animation/neon-animation.html">
 
+<!-- other -->
 <link rel="import" href="../../../bower_components/juicy-html/juicy-html.html">
 
 
@@ -43,47 +47,85 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-font-common-base);
         color: #800000;
       }
-      #mainThumb {
-        width: 180px;
-        height: 180px;
-        float: left;
+      #container {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+        @apply(--layout-scroll);
+        @apply(--layout-fit);
       }
       iron-list {
-        height: 100%;
         padding: 20px;
       }
-      #container {
+
+      /* Main */
+
+      #section{
         padding-bottom: 40px;
       }
       #manage {
         font-size: 13px;
       }
       .text {
-        display: block;
+
       }
+      #thumbMain  {
+        height: 180px;
+        width: 180px;
+        margin-right: 20px;
+        float: left;
+      }
+
+      /* response */
       .response {
         display: table;
+        padding-bottom: 10px;
         margin-bottom: 3px;
         background: #F0E0D6;
       }
       .response .text {
-        margin: 10px 20px;
+        margin: 10px 20px 0;
       }
-      .respinse #thumbResponse {
-        height: 120px;
-        width: 120px;
+      .response #thumbResponse {
+        height: 130px;
+        width: 130px;
+        margin-right: 10px;
+        margin-left: 20px;
         float: left;
       }
+      .response #imageAnchor::before {
+        /* Fix response collapse by image. */
+        content: '';
+        float: left;
+        width: 160px;
+        line-height: 0;
+        font-size: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Editor Dialog */
       #textEditor{
         --paper-dialog: {
           position: fixed;
-          max-width: 600px;
+          width: auto;
+          max-width: 100%;
           bottom: 0;
           right: 0;
+          margin: 0px;
+          padding: 0px 9px 0px;
+          background: none;
+          box-shadow: none;
         }
+      }
+      #textEditor > div {
+        background-color: #fff;
+        padding: 20px;
+        margin: 0;
+        box-shadow: @apply(--shadow-elevation-16dp);
       }
       #textEditor #editorTextarea {
         max-height: 450px;
+        max-width: 100%;
       }
 
       /* Paper Style */
@@ -108,70 +150,97 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <iron-list id="ironList" class="layout vertical flex scroll" items="[[data]]" as="item" >
+    <!-- Container -->
+    <div id="container">
+      <iron-list id="ironList" class="flex" items="[[data]]" as="item">
 
-      <template>
-        <div id="container" class="flex">
-          <hr>
-          <div id="manage" class="layout horizontal">
-            <div>
-              <paper-button href="#" on-tap="_onEditorOpenTap"><iron-icon icon="editor:mode-edit"></iron-icon>編輯</paper-button>
-              <paper-button ><iron-icon icon="icons:lock-outline"></iron-icon>鎖定</paper-button>
-              <paper-button ><iron-icon icon="icons:open-in-new"></iron-icon>開新視窗</paper-button>
-            </div>
-            <div class="layout horizontal" style="margin-left:auto">
-              <paper-toggle-button >Sage</paper-toggle-button>
-              <paper-menu-button horizontal-align="right">
-                <paper-icon-button icon="icons:more-vert" class="dropdown-trigger"></paper-icon-button>
-                <paper-menu class="dropdown-content">
-                  <paper-item>Share</paper-item>
-                  <paper-item>Settings</paper-item>
-                  <paper-item>Help</paper-item>
-                </paper-menu>
-              </paper-menu-button>
-            </div>
-          </div>
-
-          <template is="dom-if" if="[[item.thumb]]">
-            <iron-image id="mainThumb" src="[[item.thumb]]" sizing="cover" > </iron-image>
-          </template>
-
-          <div class="text text-main"><template is="juicy-html" content$="[[item.text]]"></template></div>
-          <div>[[item.serial]]</div>
-
-          <h4>[[data.responseCounts]]</h4>
-
-          <template is="dom-if" if="[[item.responseCounts]]">
-            <a href="#">[[item.responseCounts]]</a>
-          </template>
-
-          <template is="dom-repeat" items="[[item.response]]" as="response">
-
-            <div class="response">
-              <div class="layout vertical">
-                <div class="layout horizontal">
-                  <paper-button href="#" on-tap="_onEditorOpenTap"><iron-icon icon="editor:mode-edit"></iron-icon>編輯</paper-button>
-                </div>
-                <template is="dom-if" if="[[response.image]]">
-                  <a href="[[response.image]]" target="_blank">
-                    <iron-image id="thumbResponse" src="[[response.thumb]]" sizing="cover"></iron-image>
-                  </a>
-                </template>
-                <div class="text text-response">
-                  <template is="juicy-html" content$="[[response.text]]"></template>
-                </div>
+        <template>
+          <div id="section" class="flex">
+            <!-- Main Content -->
+            <hr>
+            <div id="manage" class="layout horizontal">
+              <div>
+                <paper-button href="#" on-tap="_onEditorOpenTap">
+                  <iron-icon icon="editor:mode-edit"></iron-icon>
+                  編輯
+                </paper-button>
+                <paper-button>
+                  <iron-icon icon="icons:lock-outline"></iron-icon>
+                  鎖定
+                </paper-button>
+                <paper-button>
+                  <iron-icon icon="icons:open-in-new"></iron-icon>
+                  開新視窗
+                </paper-button>
+              </div>
+              <div class="layout horizontal" style="margin-left:auto">
+                <paper-toggle-button>Sage</paper-toggle-button>
+                <paper-menu-button horizontal-align="right">
+                  <paper-icon-button icon="icons:more-vert" class="dropdown-trigger"></paper-icon-button>
+                  <paper-menu class="dropdown-content">
+                    <paper-item>Share</paper-item>
+                    <paper-item>Settings</paper-item>
+                    <paper-item>Help</paper-item>
+                  </paper-menu>
+                </paper-menu-button>
               </div>
             </div>
 
-          </template>
-        </div>
-      </template>
+            <template is="dom-if" if="[[item.thumb]]">
+              <a href="[[item.image]]" target="_blank">
+                <iron-image id="thumbMain" class="thumb" src="[[item.thumb]]" sizing="cover"></iron-image>
+              </a>
+            </template>
 
-    </iron-list>
+            <div class="text text-main">
+              <template is="juicy-html" content$="[[item.text]]"></template>
+            </div>
+            <div>[[item.serial]]</div>
+            <!--/ Main Content -->
 
+            <!-- More Response -->
+            <template is="dom-if" if="[[item.responseCounts]]">
+              <paper-button on-tap="_onOpenArticleReaderTap">[[item.responseCounts]]</paper-button>
+            </template>
+
+            <!-- Response -->
+            <template is="dom-repeat" items="[[item.response]]" as="response">
+
+              <div class="response">
+                <div class="layout vertical">
+                  <div class="layout horizontal">
+                    <paper-button href="#" on-tap="_onEditorOpenTap">
+                      <iron-icon icon="editor:mode-edit"></iron-icon>
+                      編輯
+                    </paper-button>
+                  </div>
+                  <div>
+                    <template is="dom-if" if="[[response.image]]">
+                      <a id="imageAnchor" href="[[response.image]]" target="_blank">
+                        <iron-image id="thumbResponse" class="thumb" src="[[response.thumb]]"
+                                    sizing="cover"></iron-image>
+                      </a>
+                    </template>
+                    <div class="text text-response">
+                      <template is="juicy-html" content$="[[response.text]]"></template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </template>
+            <!--/ Response-->
+          </div>
+        </template>
+
+      </iron-list>
+    </div>
+    <!-- Container -->
+
+    <!-- Other -->
     <paper-dialog id="textEditor" exit-animation="fade-out-animation" entry-animation="slide-from-bottom-animation" no-cancel-on-outside-click>
       <div class="layout vertical">
-        <h2 id="editorTitle">編輯內文</h2>
+        <h2 id="editorTitle">編輯<span id="editorSerial"></span></h2>
         <form action="">
           <iron-autogrow-textarea name="" id="editorTextarea" rows="8">asdsad</iron-autogrow-textarea>
         </form>
@@ -183,6 +252,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </paper-dialog>
 
     <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
+    <!--/ Other -->
 
   </template>
   <script>
@@ -206,21 +276,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   node: this
                 }],
                 'exit': [{
-                  name: 'slide-left-animation',
-                  node: this
+                    name: 'fade-out-animation',
+                    node: this
                 }]
               }
             }
           }
 
         },
-        _onEditorOpenTap: function(e){
+        _onEditorOpenTap: function(e) {
           this.$.textEditor.open();
-          var text = e.model.item === undefined ?
+          var isResponse = e.model.item === undefined ? true : false;
+          var text = isResponse ?
           e.model.response.text:
           e.model.item.text;
+
+          var serial = this.$.editorSerial;
+          serial.innerText = ' #' + (isResponse ? e.model.response.serial : e.model.item.serial);
           var textarea = this.$.editorTextarea;
           textarea.setAttribute( 'value', text);
+        },
+        _onOpenArticleReaderTap: function(e) {
+          this.fire('open-article-reader',{ 'item': e.model.item});
         }
       });
     })();

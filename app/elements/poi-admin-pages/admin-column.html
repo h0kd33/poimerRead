@@ -16,14 +16,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../bower_components/carbon-route/carbon-route.html">
 
-
 <link rel="import" href="article-list.html">
 <link rel="import" href="article-viewer.html">
+<link rel="import" href="article-reader.html">
 
 
 <dom-module id="admin-column" >
   <template>
+
     <style include="iron-flex iron-flex-alignment iron-positioning" >
+
       :host {
         @apply(--layout-vertical);
         @apply(--layout-fit);
@@ -34,13 +36,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 450px;
         z-index: 10;
       }
+
     </style>
 
-    <div id="twoColumn" class="layout horizontal flex relative">
-      <article-list id="articleList" on-scroll-to="_onScrollTo" ></article-list>
-      <neon-animated-pages  class="flex" id="pages" selected="0">
-        <article-viewer id="articleViewer" on-tap="togglepage"> </article-viewer>
-        <article-reader id="articleReader" on-tap="togglepage"> </article-reader>
+    <div id="twoColumn" class="layout horizontal flex relative"  on-open-article-reader="_openArticleReader">
+      <article-list id="articleList" on-scroll-to="_onScrollTo"></article-list>
+      <neon-animated-pages class="flex" id="pages" selected="0" >
+        <article-viewer id="articleViewer"></article-viewer>
+        <article-reader id="articleReader" on-tap="togglepage"></article-reader>
       </neon-animated-pages>
     </div>
 
@@ -57,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           data: {
             type: Array,
             value: function () {
-              return []
+              return [];
             }
           }
         },
@@ -65,9 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if( this.$.pages.selected === 1 ) return;
           this.$.articleViewer.$.ironList.scrollToIndex(e.detail.index);
         },
-        togglepage: function(e){
+        _openArticleReader: function(e){
           var pages = this.$.pages;
-//          pages.selected === 0 ? pages.select(1) : pages.select(0);
+          pages.select(1);
+          this.$.articleReader.data = e.detail.item;
+        },
+        togglepage: function() {
+          this.$.pages.select(0);
         }
       });
     })();
