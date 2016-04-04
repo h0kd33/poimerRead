@@ -20,20 +20,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
+
+    <!-- STORE -->
     <app-data id="store" store="{{data}}"></app-data>
 
+    <!-- RENDER DATA -->
+    <!-- RENDER DATA -->
 
     <div id="container">
       <template is="dom-repeat" items="[[data]]" as="item">
         <div>
-          <dispatch-fire action-type="REMOVE-TEXT" index="[[index]]">Edit Parent</dispatch-fire>
-          <dispatch-fire action-type="EDIT-TEXT" index="[[index]]">Remove Parent</dispatch-fire>
+          <dispatch-fire action-type="EDIT-TEXT" index="[[index]]">Edit Parent</dispatch-fire>
+          <dispatch-fire action-type="REMOVE-TEXT" index="[[index]]">Remove Parent</dispatch-fire>
           <h1>Parent [[item.serial]]</h1>
           <span>[[item.text]]</span>
 
           <div style="outline: blue 1px solid">
             <h1>Children</h1>
-            <template is="dom-repeat" items="[[data.children]]" as="children">
+            <template is="dom-repeat" items="[[item.children]]" as="children">
+              <dispatch-fire action-type="REMOVE-CHILDREN" index="[[index]]" data-path="[[items]]">Remove Children</dispatch-fire>
               <span>[[children.id]]</span>
               <span>[[children.text]]</span>
             </template>
@@ -42,6 +47,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </template>
     </div>
+
+    <!--/ RENDER DATA -->
+    <!--/ RENDER DATA -->
+
   </template>
   <script>
   (function() {
@@ -59,8 +68,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: function() { return []}
         }
       },
-      _fired: function(e) { this.$.store.actions(e.detail, e.target);}
-    });
+      _fired: function(e) { this.$.store.actions(e.detail, e.target ,e);}
+    })
   })();
   </script>
 </dom-module>

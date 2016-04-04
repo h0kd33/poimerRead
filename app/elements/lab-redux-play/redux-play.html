@@ -10,11 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-
 <!-- Redux -->
 <script src="../../../node_modules/redux/dist/redux.min.js"></script>
 <link rel="import" href="../../../bower_components/polymer-redux/polymer-redux.html">
-<link rel="import" href="../../../bower_components/iron-meta/iron-meta.html">
 
 <link rel="import" href="redux-play-sub.html">
 
@@ -26,32 +24,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>Hello from <span>{{name}}</span></div>
-    <redux-play-sub on-click="_handleClick" action-type="agent">Agent</redux-play-sub>
-    <redux-play-sub on-click="_handleClick" action-type="name">Name</redux-play-sub>
+    <redux-play-sub action-type="agent">Agent</redux-play-sub>
+    <redux-play-sub action-type="name">Name</redux-play-sub>
     <iron-meta id="meta"></iron-meta>
   </template>
   <script>
 
-    // not work
-    var ReduxBehavior = PolymerRedux(store);
   (function() {
     'use strict';
-
     Polymer({
       is: 'redux-play',
-
-      behaviors: [ ReduxBehavior ],
+      behaviors: [ReduxBehavior],
       properties: {
         name: {
           type: String,
           statePath: 'name'
         }
-      },
-      ready: function() {
-        var store = this.$.meta.byKey('store');
-        var ReduxBehavior = PolymerRedux(store);
       }
-
     });
   })();
   </script>

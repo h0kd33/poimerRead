@@ -33,21 +33,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true
         }
       },
-      actions: function(e, target) {
+      actions: function(detail, target, e) {
         console.log( e );
+
         var action = (function() {
 
           switch( e.type ) {
             case 'EDIT-TEXT':
-              return { text: 'Dispatched!!'};
+
             case 'REMOVE-TEXT':
               return { };
+            case 'REMOVE-CHILDREN':
+              return (
+                this.set( 'store.0.children'+ target.index , { text: 'Dispatchedd!!!'} )
+              )
             default:
               return { }
           }
-        })();
+        })();/*
         var mutationTarget = 'store.' + target.index;
-        this.set(mutationTarget , action );
+        this.set(mutationTarget , action );*/
 
       },
       attached: function() {

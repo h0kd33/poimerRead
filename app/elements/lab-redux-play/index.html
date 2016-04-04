@@ -3,39 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
-
   <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
   <!-- Redux -->
   <script src="../../../node_modules/redux/dist/redux.min.js"></script>
   <link rel="import" href="../../../bower_components/polymer-redux/polymer-redux.html">
   <link rel="import" href="../../../bower_components/iron-meta/iron-meta.html">
+  <script>
+    store = Redux.createStore(function (state, action) {
+      switch (action.type) {
+        case 'agent':
+          return {name: '007'};
+        case 'name':
+        default:
+          return {name: 'James Bond'};
+      }
+    });
+    ReduxBehavior = PolymerRedux(store);
+  </script>
   <link rel="import" href="redux-play.html">
 </head>
-<body is="dom-bind">
-<script>
+<body>
 
-
-
-</script>
 <iron-meta key="store"></iron-meta>
 <redux-play></redux-play>
 <script>
-  (function() {
 
-    store = Redux.createStore(function(state, action) {
-      switch (action.type) {
-        case 'agent':
-          return { name: '007' };
-        case 'name':
-        default:
-          return { name: 'James Bond' };
-      }
-    });
-    document.querySelector('iron-meta').value = store;
-
-  })();
 </script>
 </body>
 </html>
