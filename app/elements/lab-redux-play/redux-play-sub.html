@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/iron-meta/iron-meta.html">
 
 
-<dom-module id="redux-play">
+<dom-module id="redux-play-sub">
   <template>
     <style>
       :host {
@@ -28,14 +28,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <script>
 
-
+    // not work
+    var ReduxBehavior = PolymerRedux(store);
 
   (function() {
     'use strict';
 
-
     Polymer({
-      is: 'redux-play',
+      is: 'redux-play-sub',
 
       extends: 'button',
       behaviors: [ ReduxBehavior ],
