@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61898093-f469-427c-b8a1-157ac94c965d" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/elements/lab-redux-play/redux-store.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lab-redux-play/index.html" afterPath="$PROJECT_DIR$/app/elements/lab-redux-play/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play-sub.html" afterPath="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play-sub.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html" afterPath="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lav-dispatch-play/app-data.html" afterPath="$PROJECT_DIR$/app/elements/lav-dispatch-play/app-data.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lav-dispatch-play/dispatch-fire.html" afterPath="$PROJECT_DIR$/app/elements/lav-dispatch-play/dispatch-fire.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/lav-dispatch-play/dispatch-play.html" afterPath="$PROJECT_DIR$/app/elements/lav-dispatch-play/dispatch-play.html" />
     </list>
     <ignored path="plus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,38 +30,18 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.730769">
-              <caret line="21" column="17" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="17" />
+            <state vertical-scroll-proportion="-11.769231">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bower_components/polymer-redux/examples/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-24.846153">
-              <caret line="58" column="34" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="redux-play.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="redux-play.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.923077">
-              <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="redux-play-sub.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-play-sub.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.25168237">
-              <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.4858681">
+              <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -75,8 +53,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -86,7 +64,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/bower_components/paper-drawer-panel/paper-drawer-panel.html" />
         <option value="$PROJECT_DIR$/app/elements/poi-neon-viewer/x-card-list.html" />
         <option value="$PROJECT_DIR$/app/scripts/app.js" />
         <option value="$PROJECT_DIR$/app/elements/poi-neon-viewer/x-cards-list.html" />
@@ -134,9 +111,10 @@
         <option value="$PROJECT_DIR$/app/elements/lav-dispatch-play/app-data.html" />
         <option value="$PROJECT_DIR$/app/elements/lab-redux-play/redux-store.js" />
         <option value="$PROJECT_DIR$/bower_components/polymer-redux/examples/index.html" />
-        <option value="$PROJECT_DIR$/app/elements/lab-redux-play/index.html" />
-        <option value="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html" />
         <option value="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play-sub.html" />
+        <option value="$PROJECT_DIR$/app/elements/lab-redux-play/index.html" />
+        <option value="$PROJECT_DIR$/app/elements/lab-redux-play/redux-behavior.html" />
+        <option value="$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html" />
       </list>
     </option>
   </component>
@@ -498,7 +476,7 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="editor.config.accepted" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="redux/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux&#10;polymer-redux/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux&#10;polymer-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.html&#10;polymer-redux&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.js&#10;iron-meta/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-meta&#10;polymer-re&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.html&#10;paper-but&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-button/paper-button.html&#10;paper-button&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-behaviors/paper-button-behavior.html&#10;shadow.ht&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/shadow.html&#10;shadow&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/shadow.html&#10;paper-style&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/paper-styles.html&#10;flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;typ&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/typography.html&#10;iron-fl&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;iron-flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;carbon-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/carbon-route/carbon-route.html&#10;paper-font-dis&#9;null&#9;null&#10;neon&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/neon-animation/neon-animatable.html&#10;iron flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/classes/iron-flex-layout.html&#10;iron class&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;flex la&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/classes/iron-flex-layout.html&#10;layout cl&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;layout&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;surround&#9;ACTION&#9;SurroundWithEmmet&#10;layout-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;fullbleed&#9;null&#9;null&#10;--layout&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;surround emme&#9;ACTION&#9;SurroundWithEmmet&#10;iron&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;iron-fla&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;/dee/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/node_modules/globule/test/fixtures/expand/deep&#10;font&#9;ACTION&#9;null&#10;iron-swipe&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-swipeable-pages/iron-swipeable-pages.html&#10;paper-drawer&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-drawer-panel/paper-drawer-panel.html&#10;iron-flex-layout.html&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;emmet&#9;ACTION&#9;SurroundWithEmmet&#10;close&#9;ACTION&#9;CloseContent&#10;close tab&#9;ACTION&#9;ReopenClosedTab" />
+    <property name="SearchEverywhereHistoryKey" value="iron-resi&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-resizable-behavior/iron-resizable-behavior.html&#10;redux/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux&#10;polymer-redux/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux&#10;polymer-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.html&#10;polymer-redux&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.js&#10;iron-meta/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-meta&#10;polymer-re&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/polymer-redux/polymer-redux.html&#10;paper-but&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-button/paper-button.html&#10;paper-button&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-behaviors/paper-button-behavior.html&#10;shadow.ht&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/shadow.html&#10;shadow&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/shadow.html&#10;paper-style&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/paper-styles.html&#10;flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;typ&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-styles/typography.html&#10;iron-fl&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;iron-flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout-classes.html&#10;carbon-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/carbon-route/carbon-route.html&#10;paper-font-dis&#9;null&#9;null&#10;neon&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/neon-animation/neon-animatable.html&#10;iron flex&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/classes/iron-flex-layout.html&#10;iron class&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;flex la&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/classes/iron-flex-layout.html&#10;layout cl&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;layout&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;surround&#9;ACTION&#9;SurroundWithEmmet&#10;layout-&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;fullbleed&#9;null&#9;null&#10;--layout&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;surround emme&#9;ACTION&#9;SurroundWithEmmet&#10;iron&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;iron-fla&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/test/iron-flex-layout-classes.html&#10;/dee/&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/node_modules/globule/test/fixtures/expand/deep&#10;font&#9;ACTION&#9;null&#10;iron-swipe&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-swipeable-pages/iron-swipeable-pages.html&#10;paper-drawer&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/paper-drawer-panel/paper-drawer-panel.html&#10;iron-flex-layout.html&#9;FILE&#9;file://C:/Users/johns/WebstormProjects/PoimerStarter/plus/bower_components/iron-flex-layout/iron-flex-layout.html&#10;emmet&#9;ACTION&#9;SurroundWithEmmet&#10;close&#9;ACTION&#9;CloseContent&#10;close tab&#9;ACTION&#9;ReopenClosedTab" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -672,21 +650,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bower_components/paper-styles/classes/typography.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.392857">
-          <caret line="76" column="19" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower_components/carbon-route/carbon-route.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6562923">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/webcomponentsjs/webcomponents-lite.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1033,44 +996,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-store.js">
+    <entry file="file://$PROJECT_DIR$/bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#40#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769">
-          <caret line="21" column="17" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="17" />
+        <state vertical-scroll-proportion="-2.768506">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/polymer-redux/examples/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.846153">
-          <caret line="58" column="34" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.16016151">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html">
+    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-behavior.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.923077">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.09152086">
+          <caret line="4" column="59" selection-start-line="4" selection-start-column="59" selection-end-line="4" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-play-sub.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25168237">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        <state vertical-scroll-proportion="-0.04576043">
+          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/elements/lab-redux-play/redux-play.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4858681">
+          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
           <folding />
         </state>
       </provider>

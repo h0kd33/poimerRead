@@ -8,27 +8,14 @@
   <!-- Redux -->
   <script src="../../../node_modules/redux/dist/redux.min.js"></script>
   <link rel="import" href="../../../bower_components/polymer-redux/polymer-redux.html">
-  <link rel="import" href="../../../bower_components/iron-meta/iron-meta.html">
-  <script>
-    store = Redux.createStore(function (state, action) {
-      switch (action.type) {
-        case 'agent':
-          return {name: '007'};
-        case 'name':
-        default:
-          return {name: 'James Bond'};
-      }
-    });
-    ReduxBehavior = PolymerRedux(store);
-  </script>
+
+  <link rel="import" href="redux-behavior.html">
   <link rel="import" href="redux-play.html">
+
 </head>
 <body>
 
-<iron-meta key="store"></iron-meta>
 <redux-play></redux-play>
-<script>
 
-</script>
 </body>
 </html>

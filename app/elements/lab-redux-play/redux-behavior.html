@@ -13,36 +13,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- Redux -->
 <script src="../../../node_modules/redux/dist/redux.min.js"></script>
 <link rel="import" href="../../../bower_components/polymer-redux/polymer-redux.html">
-<link rel="import" href="redux-behavior.html">
-<link rel="import" href="redux-play-sub.html">
 
-<dom-module id="redux-play">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-
-    <redux-play-sub action-type="agent">Agent</redux-play-sub>
-    <redux-play-sub action-type="name">Name</redux-play-sub>
-    
-    <div>Hello from <span>{{name}}</span></div>
-  </template>
-  <script>
-
-  (function() {
-    'use strict';
-    Polymer({
-      is: 'redux-play',
-      behaviors: [ReduxBehavior],
-      properties: {
-        name: {
-          type: String,
-          statePath: 'name'
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
+<script>
+  store = Redux.createStore(function (state, action) {
+    switch (action.type) {
+      case 'agent':
+        return {name: '007'};
+      case 'name':
+      default:
+        return {name: 'James Bond'};
+    }
+  });
+  ReduxBehavior = PolymerRedux(store);
+</script>
