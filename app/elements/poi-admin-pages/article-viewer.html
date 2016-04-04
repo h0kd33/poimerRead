@@ -69,10 +69,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
       #thumbMain  {
-        height: 180px;
-        width: 180px;
         margin-right: 20px;
         float: left;
+      }
+      .post-info {
+        padding: 0 3px;
+      }
+      .post-info > span{
+        padding-right: 3px;
+      }
+      .post-info .post-title {
+        color: #cc1105;
+        font-weight: bold;
+      }
+      .post-info .post-nickname {
+        color: #117743;
+        font-weight: bold;
+      }
+      .post-info .post-id {
+
+      }
+      .post-info .post-time {
+
+      }
+      .post-info .post-serial {
+
       }
 
       /* response */
@@ -86,8 +107,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 10px 20px 0;
       }
       .response #thumbResponse {
-        height: 130px;
-        width: 130px;
+        /*--iron-image-width: auto;*/
+        /*--iron-image-height: 130px;*/
+        /*max-width: 130px;*/
         margin-right: 10px;
         margin-left: 20px;
         float: left;
@@ -155,8 +177,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-list id="ironList" class="flex" items="[[data]]" as="item">
 
         <template>
+        <!-- Main Content -->
           <div id="section" class="flex">
-            <!-- Main Content -->
+            <!-- Manage Element -->
             <hr>
             <div id="manage" class="layout horizontal">
               <div>
@@ -185,10 +208,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-menu-button>
               </div>
             </div>
+            <!-- Content -->
 
+            <div class="layout horizontal post-info">
+              <span class="post-title">[[item.title]]</span>
+              <span class="post-nickname">[[item.name]]</span>
+              <span class="post-id">ID:[[item.id]]</span>
+              <span class="post-time">[[item.time]]</span>
+              <span class="post-serial">No.[[item.serial]]</span>
+            </div>
             <template is="dom-if" if="[[item.thumb]]">
               <a href="[[item.image]]" target="_blank">
-                <iron-image id="thumbMain" class="thumb" src="[[item.thumb]]" sizing="cover"></iron-image>
+                <iron-image id="thumbMain" class="thumb" src="[[item.thumb]]" onload-loaded-changed="_imageLoaded" ></iron-image>
               </a>
             </template>
 
@@ -196,7 +227,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <template is="juicy-html" content$="[[item.text]]"></template>
             </div>
             <div>[[item.serial]]</div>
-            <!--/ Main Content -->
+            <!--/ Content -->
 
             <!-- More Response -->
             <template is="dom-if" if="[[item.responseCounts]]">
@@ -214,11 +245,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       編輯
                     </paper-button>
                   </div>
+                  <div class="layout horizontal post-info">
+                    <span class="post-title">[[item.title]]</span>
+                    <span class="post-nickname">[[item.name]]</span>
+                    <span class="post-id">ID:[[item.id]]</span>
+                    <span class="post-time">[[item.time]]</span>
+                    <span class="post-serial">No.[[item.serial]]</span>
+                  </div>
                   <div>
                     <template is="dom-if" if="[[response.image]]">
                       <a id="imageAnchor" href="[[response.image]]" target="_blank">
-                        <iron-image id="thumbResponse" class="thumb" src="[[response.thumb]]"
-                                    sizing="cover"></iron-image>
+                        <iron-image id="thumbResponse" class="thumb" src="[[response.thumb]]" on-loaded-changed="_imageLoaded" ></iron-image>
                       </a>
                     </template>
                     <div class="text text-response">
@@ -231,6 +268,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template>
             <!--/ Response-->
           </div>
+        <!--/ Main Content -->
         </template>
 
       </iron-list>
@@ -242,7 +280,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="layout vertical">
         <h2 id="editorTitle">編輯<span id="editorSerial"></span></h2>
         <form action="">
-          <iron-autogrow-textarea name="" id="editorTextarea" rows="8">asdsad</iron-autogrow-textarea>
+          <iron-autogrow-textarea name="" id="editorTextarea" value="{{textEditorContent}}" rows="8">asdsad</iron-autogrow-textarea>
         </form>
         <div class="layout horizontal">
           <paper-button dialog-dismiss><iron-icon icon="icons:close"></iron-icon>取消</paper-button>;
@@ -251,7 +289,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-dialog>
 
-    <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
     <!--/ Other -->
 
   </template>
@@ -281,9 +318,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }]
               }
             }
+          },
+          textEditorContent: {
+            type: String
           }
 
         },
+        _onImgLoad() {
+          console.log('loaded');
+        },
+
         _onEditorOpenTap: function(e) {
           this.$.textEditor.open();
           var isResponse = e.model.item === undefined ? true : false;
@@ -293,12 +337,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           var serial = this.$.editorSerial;
           serial.innerText = ' #' + (isResponse ? e.model.response.serial : e.model.item.serial);
-          var textarea = this.$.editorTextarea;
-          textarea.setAttribute( 'value', text);
+
+          this.textEditorContent =  text;
         },
         _onOpenArticleReaderTap: function(e) {
-          this.fire('open-article-reader',{ 'item': e.model.item});
+          this.fire('open-article-reader', {'item': e.model.item});
+        },
+        _imageLoaded: function(e) {
+          var img = e.target.$$('img');
+          var target = e.target;
+          console.log(e);
+          if( target.height !== null && e.detail.value === false ) return ;
+          this.async( function(){
+            target.setAttribute('height', img.offsetHeight);
+            target.setAttribute('width', img.offsetWidth);
+
+            console.log( 'fired! should not be null: ' + target.height );
+
+          }, 50);
+
         }
+
       });
     })();
   </script>

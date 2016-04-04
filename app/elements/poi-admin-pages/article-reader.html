@@ -12,9 +12,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
 <link rel="import" href="../../../bower_components/neon-animation/neon-animatable-behavior.html">
 
 <link rel="import" href="../../../bower_components/carbon-route/carbon-route.html">
+
+
 
 <dom-module id="article-reader">
   <template>
@@ -23,24 +27,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
     </style>
+
+    <carbon-route route="{{route}}" pattern="/:serial" data="{{routeData}}"></carbon-route>
+
     <div class="container">
-    <h1>[[data.text]]</h1>
-    <template is="dom-repeat" items="[[data.response]]" as="item">
 
-      <div class="section">
-        <div>[[item.text]]</div>
-        <div>[[item.thumb]]</div>
-        <div>[[item.serial]]</div>
-      </div>
 
-    </template>
+      <paper-toggle-button on-tap="_onTap"> SAGE: <span>[[sage]]</span></paper-toggle-button>
+      <h1>[[data.text]]</h1>
+      <template is="dom-repeat" items="[[data.response]]" as="item">
+
+        <div class="section">
+          <div>[[item.text]]</div>
+          <div>[[item.thumb]]</div>
+          <div>[[item.serial]]</div>
+        </div>
+
+      </template>
 
     </div>
+
   </template>
   <script>
+
+
     (function() {
       'use strict';
-
       Polymer({
         is: 'article-reader',
 
@@ -61,8 +73,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   name: 'slide-from-right-animation',
                   node: this
                 }, {
-                    name: 'fade-in-animation',
-                    node: this
+                  name: 'fade-in-animation',
+                  node: this
                   }],
                 'exit': [{
                   name: 'slide-right-animation',
@@ -71,6 +83,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               }
             }
           }
+        },
+        _onTap: function() {
+
         }
       });
     })();

@@ -13,7 +13,8 @@
     "iron-swipeable-pages": "^1.0.9",
     "juicy-html": "Juicy/juicy-html#^1.1.0",
     "swiper-behavior": "ciampo/swiper-behavior#^1.1.2",
-    "carbon-route": "^0.8.4"
+    "carbon-route": "^0.8.4",
+    "polymer-redux": "tur-nr/polymer-redux"
   },
   "devDependencies": {}
 }

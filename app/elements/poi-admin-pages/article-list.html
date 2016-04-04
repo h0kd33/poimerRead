@@ -70,13 +70,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <template is="juicy-html" content$="[[item.text]]"></template>
             </div>
           </div>
+          <div>{{_computeResponseLength(item.response)}}篇</div>
         </template>
 
       </iron-list>
     </div>
-
-    <iron-ajax url="data.json" last-response="{{data}}" auto></iron-ajax>
-
   </template>
   <script>
     (function() {
@@ -116,6 +114,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         _computeSelect: function(selected) {
           return selected? true: false;
+        },
+        _computeResponseLength: function(res) {
+          var length = res.length;
+          return length
         }
 
       });

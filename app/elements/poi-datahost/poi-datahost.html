@@ -8,31 +8,54 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <dom-module id="poi-datahost">
   <template>
     <style>
       :host {
-        display: block;
+
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+
+    <iron-ajax id="requestArticle" url="{{requestTarget}}" on-response="_loadComplete" debounce-duration="500" last-response="{{data}}" loading="{{loading}}" timeout="10000" verbose auto></iron-ajax>
+
   </template>
   <script>
   (function() {
     'use strict';
-
+    /**
+     * TODO: Target
+     * - 管理 ajax 狀態，回傳資料、及動作成功、失敗
+     * - 暫存資料，比對有沒有新文章，並發出有新文章的　notify
+     * -
+     * */
     Polymer({
       is: 'poi-datahost',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'poi-datahost',
-          notify: true
+        data: {
+          type: Array,
+          value: function() { return []; }
+        },
+        loading: Boolean,
+        prevData: {
+          type: Array,
+          value: function() { return []; }
+        },
+        nextData: {
+          type: Array,
+          value: function() { return []; }
+        },
+        actions: {
+          checkDataUpdate: {
+            return [];
+          }
         }
-      }
+      },
+
+
     });
   })();
   </script>

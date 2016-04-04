@@ -11,10 +11,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../../../bower_components/paper-spinner/paper-spinner.html">
 
 <link rel="import" href="../../../bower_components/neon-animation/neon-animation.html">
 
 <link rel="import" href="../../../bower_components/carbon-route/carbon-route.html">
+<link rel="import" href="../../../bower_components/carbon-route/carbon-location.html">
 
 <link rel="import" href="article-list.html">
 <link rel="import" href="article-viewer.html">
@@ -38,18 +42,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
+    <!-- Route -->
+    <carbon-location route="{{route}}" use-hash-as-path></carbon-location>
+    <carbon-route route="{{route}}" pattern="/:pageName" data="{{routeData}}"></carbon-route>
 
-    <div id="twoColumn" class="layout horizontal flex relative"  on-open-article-reader="_openArticleReader">
-      <article-list id="articleList" on-scroll-to="_onScrollTo"></article-list>
-      <neon-animated-pages class="flex" id="pages" selected="0" >
-        <article-viewer id="articleViewer"></article-viewer>
-        <article-reader id="articleReader" on-tap="togglepage"></article-reader>
+    <!-- AJAX -->
+    <iron-ajax id="ironAjax" url="http://johnson.test:4300/" on-response="_handleResponse" debounce-duration="500" last-response="{{data}}" loading="{{loading}}" timeout="10000" verbose auto></iron-ajax>
+
+    <!-- Main Content -->
+    <div id="twoColumn" class="layout horizontal flex relative" on-open-article-reader="_openArticleReader">
+
+      <article-list id="articleList" data="[[data]]" on-scroll-to="_onScrollTo"></article-list>
+
+      <neon-animated-pages class="flex" id="pages" selected="{{routeData.pageName}}" attr-for-selected="key">
+        <article-viewer id="articleViewer" key="viewer" data="[[data]]"></article-viewer>
+        <article-reader id="articleReader" key="reader" on-tap="togglepage"></article-reader>
       </neon-animated-pages>
+
     </div>
 
+    <template is="dom-if" if="{{loading}}">
+      <paper-spinner active="{{loading}}"></paper-spinner>
+    </template>
 
   </template>
   <script>
+
+
     (function() {
       'use strict';
 
@@ -64,17 +83,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           }
         },
+        ready: function() {
+          this.async(function() {
+            // If we do not have an initial URL, we redirect to /page/viewer
+            if (!this.route.path) {
+              this.set('route.path', '/viewer');
+            }
+          },1);
+        },
         _onScrollTo: function(e) {
-          if( this.$.pages.selected === 1 ) return;
+          if( this.route.path === '/reader' ) return;
           this.$.articleViewer.$.ironList.scrollToIndex(e.detail.index);
         },
         _openArticleReader: function(e){
           var pages = this.$.pages;
-          pages.select(1);
+          this.set('route.path', ('/reader/' + e.detail.item.serial ));
           this.$.articleReader.data = e.detail.item;
         },
         togglepage: function() {
-          this.$.pages.select(0);
+          this.set('route.path', '/viewer');
         }
       });
     })();
