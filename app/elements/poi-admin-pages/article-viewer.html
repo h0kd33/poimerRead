@@ -46,6 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--paper-font-common-base);
         color: #800000;
+        word-break: break-all;
       }
       #container {
         @apply(--layout-vertical);
@@ -73,6 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         float: left;
       }
       .post-info {
+        flex-wrap: wrap;
         padding: 0 3px;
       }
       .post-info > span{
@@ -344,15 +346,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.fire('open-article-reader', {'item': e.model.item});
         },
         _imageLoaded: function(e) {
+          /**
+           * Building
+           * */
           var img = e.target.$$('img');
           var target = e.target;
-          console.log(e);
+          // console.log(e);
           if( target.height !== null && e.detail.value === false ) return ;
           this.async( function(){
             target.setAttribute('height', img.offsetHeight);
             target.setAttribute('width', img.offsetWidth);
 
-            console.log( 'fired! should not be null: ' + target.height );
+            // console.log( 'fired! should not be null: ' + target.height );
 
           }, 50);
 

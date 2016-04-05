@@ -34,12 +34,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--layout-fit);
         background-color: #ffffee;
+        -webkit-user-select: none;
+      }
+      #twoColumn {
       }
       article-list {
         position: relative;
+        margin-left: -450px;
         width: 450px;
         z-index: 10;
       }
+
 
     </style>
     <!-- Route -->
@@ -54,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <article-list id="articleList" data="[[data]]" on-scroll-to="_onScrollTo"></article-list>
 
-      <neon-animated-pages class="flex" id="pages" selected="{{routeData.pageName}}" attr-for-selected="key">
+      <neon-animated-pages class="flex" id="pages" selected="{{routeData.pageName}}" attr-for-selected="key" on-track="_handlePageTrack">
         <article-viewer id="articleViewer" key="viewer" data="[[data]]"></article-viewer>
         <article-reader id="articleReader" key="reader" on-tap="togglepage"></article-reader>
       </neon-animated-pages>
@@ -81,8 +86,97 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: function () {
               return [];
             }
+          },
+          // Motion
+          drawerOpen: {
+            // Open or Close
+            type: Boolean,
+            value: false
+          },
+          drawerEnableTrack: {
+            // enable track touch event
+            type: Boolean,
+            value: true,
+          },
+          drawerWidth: {
+            type: Number,
+            value: 290
+          },
+          trackEdge: {
+            type: Number,
+            value: 120
           }
         },
+
+        /**
+         * Motion Function
+         * */
+        _handlePageTrack: function(e) {
+          var triggerRange = 60;
+          var startX = e.detail.x - e.detail.dx;
+          var state = e.detail.state;
+
+          // Edge ?
+          if ( this.drawerOpen === false && startX > this.trackEdge ){
+            // console.log('not edge track '+ e.detail.x);
+            this.drawerEnableTrack = false;
+            return;
+          } else {
+            this.drawerEnableTrack = true;
+          }
+          // Track Enable ?
+          if (!this.drawerEnableTrack) { /*console.log('unable track');*/ return;}
+
+          switch(true) {
+
+            /* Drawer is Open */
+            case ( this.drawerOpen === true && state ==='start' ):
+              break;
+            case ( this.drawerOpen === true && state ==='track' ):
+              this.translate3d( e.detail.dx + this.drawerWidth + 'px' , 0 , 0);
+              this.style.transition = '';
+              break;
+            case ( this.drawerOpen === true && state ==='end' ):
+              // End Return Transition
+              this.style.transition = 'all 0.3s ease-out';
+              // Trigger if -range < x < range
+              if( e.detail.dx < -triggerRange / 1.5 )  {
+                this.toggleDrawer();  break;
+              }
+              this.translate3d( this.drawerWidth + 'px' ,0,0 );
+              break;
+
+            /* Drawer is Close */
+            case ( this.drawerOpen === false && state ==='start' ):
+              break;
+            case ( this.drawerOpen === false && state ==='track' ):
+
+              this.translate3d( e.detail.dx + 'px' , 0 , 0);
+              this.style.transition = '';
+              break;
+            case ( this.drawerOpen === false && state ==='end' ):
+              // End Return Transition
+              this.style.transition = 'all 0.3s ease-out';
+              // Trigger if -range < x < range
+              if( e.detail.dx > triggerRange )  {
+                this.toggleDrawer();  break;
+              }
+              this.translate3d( '0px',0,0 );
+              break;
+          }
+        },
+        toggleDrawer: function(){
+          this.style.transition = 'all 0.3s ease-out';
+          if(this.drawerOpen){
+            this.drawerOpen = false;
+            this.translate3d( 0,0,0 );
+          } else {
+            this.drawerOpen = true;
+            this.translate3d( this.drawerWidth + 'px',0,0 );
+          }
+        },
+        /** End Motion Function **/
+
         ready: function() {
           this.async(function() {
             // If we do not have an initial URL, we redirect to /page/viewer
@@ -90,6 +184,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               this.set('route.path', '/viewer');
             }
           },1);
+          /**
+           * Drawer Init
+           * */
+          this.$.articleList.style.width = this.drawerWidth + 'px';
+          this.$.articleList.style.marginLeft = ( - this.drawerWidth ) + 'px';
+
+
         },
         _onScrollTo: function(e) {
           if( this.route.path === '/reader' ) return;
